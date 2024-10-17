@@ -1,7 +1,6 @@
 /data
 train_acc.png
 train_loss.png
-.github/*
 test_metrics.md
 checkpoints/
 logs/
