@@ -26,11 +26,24 @@ jobs:
         run: |
           uv sync
 
-      - name: Pull data from DVC
+      - name: Clear DVC cache
+        run: |
+          rm -rf .dvc/cache
+          uv run dvc gc -w -f
+
+      - name: Fetch data from DVC
         env:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
-          uv run dvc pull
+          max_retries=5
+          for i in $(seq 1 $max_retries); do
+            uv run dvc fetch -v --timeout 3600 && break
+            echo "Attempt $i failed. Retrying in $((2**i)) seconds..."
+            sleep $((2**i))
+          done
+      
+      - name: Checkout DVC data
+        run: uv run dvc checkout
 
       - name: Train model
         run: |
@@ -54,3 +67,11 @@ jobs:
           
           # Post CML report as a comment in GitHub
           cml comment create report.md
+
+      - name: Update DVC
+        run: uv run pip install --upgrade dvc[gdrive]
+
+      - name: Check DVC remote configuration
+        run: |
+          uv run dvc remote list
+          uv run dvc remote modify gdrive --local gdrive_acknowledge_abuse true
