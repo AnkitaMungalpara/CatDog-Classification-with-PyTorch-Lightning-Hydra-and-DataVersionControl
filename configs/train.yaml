@@ -29,7 +29,7 @@ defaults:
   - hydra: default
   # experiment configs allow for version control of specific hyperparameters
   # e.g. best hyperparameters for given model and datamodule
-  # - experiment: catdog_ex
+  - experiment: catdog_ex
 
 
   # debugging config (enable through command line, e.g. `python train.py debug=default)
