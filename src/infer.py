@@ -135,7 +135,9 @@ def main(cfg: DictConfig) -> None:
         img_tensor = img.unsqueeze(0).to(model.device)
         
         actual_label = CLASS_LABELS[label_index]
+
         predicted_label, confidence = inference(model, img_tensor)
+        print(actual_label, predicted_label)
         
         output_image_path = output_folder / f"sample_{idx}_prediction.png"
         

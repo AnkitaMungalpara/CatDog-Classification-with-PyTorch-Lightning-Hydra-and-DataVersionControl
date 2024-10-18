@@ -24,14 +24,14 @@ seed: 42
 
 model:
   _target_: src.models.timm_classifier.TimmClassifier
-  base_model: "vit_tiny_patch16_224"
+  base_model: "tiny_vit_5m_224"
   num_classes: 2
   lr: 1e-3
 
 trainer:
   _target_: lightning.Trainer
   min_epochs: 1
-  max_epochs: 5
+  max_epochs: 1
 
 callbacks:
   # model_checkpoint:
