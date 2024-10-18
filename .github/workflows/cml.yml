@@ -75,14 +75,14 @@ jobs:
           echo "![Accuracy](./accuracy_plot.png)" >> report.md
           echo "![Loss](./loss_plot.png)" >> report.md
           
-          echo "### Test Metrics" >> report.md
-          cat test_metrics.md >> report.md
-          
           echo "### Confusion Matrices" >> report.md
           echo "#### Train Dataset" >> report.md
           echo "![Train Confusion Matrix](./train_confusion_matrix.png)" >> report.md
           echo "#### Test Dataset" >> report.md
           echo "![Test Confusion Matrix](./test_confusion_matrix.png)" >> report.md
+          
+          echo "### Test Metrics" >> report.md
+          cat test_metrics.md >> report.md
           
           echo "### Sample Predictions" >> report.md
           for img in predictions/*.png; do

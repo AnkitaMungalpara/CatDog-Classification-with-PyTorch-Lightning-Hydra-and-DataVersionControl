@@ -12,19 +12,9 @@ import numpy as np
 import rootutils
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
-# Function to create plot with two metrics
-def create_combined_plot(df, x_col, y_col1, y_col2, title, ylabel, filename):
-    plt.figure(figsize=(10, 6))
-    plt.plot(df[x_col], df[y_col1], label=y_col1)
-    plt.plot(df[x_col], df[y_col2], label=y_col2)
-    plt.xlabel(x_col.capitalize())
-    plt.ylabel(ylabel)
-    plt.title(title)
-    plt.legend()
-    plt.savefig(filename)
-    plt.close()
+# Get the project root directory
+PROJECT_ROOT = rootutils.find_root(__file__, indicator=".project-root")
 
-# Function to generate confusion matrix
 def generate_confusion_matrix(model, dataloader, class_names, dataset_name):
     model.eval()
     all_preds = []
@@ -47,36 +37,70 @@ def generate_confusion_matrix(model, dataloader, class_names, dataset_name):
     plt.title(f'Confusion Matrix - {dataset_name} Dataset')
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.savefig(f'{dataset_name.lower()}_confusion_matrix.png')
+    plt.savefig(os.path.join(PROJECT_ROOT, f'{dataset_name.lower()}_confusion_matrix.png'))
+    plt.close()
+
+def create_plot(df, x_col, y_cols, title, ylabel, filename):
+    plt.figure(figsize=(10, 6))
+    for col in y_cols:
+        if col in df.columns:
+            plt.plot(df[x_col], df[col], label=col)
+    plt.xlabel(x_col)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.legend()
+    plt.savefig(os.path.join(PROJECT_ROOT, filename))
     plt.close()
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="eval")
 def main(cfg: DictConfig):
     # Find the most recent metrics.csv file
-    csv_files = glob(f"{cfg.paths.log_dir}/train/runs/*/csv/version_*/metrics.csv")
+    csv_files = glob(os.path.join(cfg.paths.log_dir, "train/runs/*/csv/version_*/metrics.csv"))
     if not csv_files:
         raise FileNotFoundError("No metrics.csv file found")
     latest_csv = max(csv_files, key=os.path.getctime)
 
+    print(f"Using metrics file: {latest_csv}")
+
     # Read the CSV file
     df = pd.read_csv(latest_csv)
 
-    # Create combined accuracy plot
-    create_combined_plot(df, 'step', 'train/acc', 'val/acc', 'Training and Validation Accuracy', 'Accuracy', 'accuracy_plot.png')
+    # Print column names for debugging
+    print("Columns in the CSV file:", df.columns.tolist())
 
-    # Create combined loss plot
-    create_combined_plot(df, 'step', 'train/loss', 'val/loss', 'Training and Validation Loss', 'Loss', 'loss_plot.png')
+    # Remove rows with all NaN values
+    df = df.dropna(how='all')
+
+    # Group by step and take the first non-NaN value for each column
+    df = df.groupby('step').first().reset_index()
+
+    # Sort by step
+    df = df.sort_values('step')
+
+    # Fill NaN values with the previous non-NaN value
+    df = df.ffill()
+
+    # Create loss plot
+    create_plot(df, "step", ["train/loss", "val/loss"], "Training and Validation Loss", "Loss", "loss_plot.png")
+
+    # Create accuracy plot
+    create_plot(df, "step", ["train/acc", "val/acc"], "Training and Validation Accuracy", "Accuracy", "accuracy_plot.png")
 
     # Generate test metrics table
     test_metrics = df[df['test/acc'].notna()].iloc[-1]
     test_table = "| Metric | Value |\n|--------|-------|\n"
-    test_table += f"| Test Accuracy | {test_metrics['test/acc']:.4f} |\n"
-    test_table += f"| Test Loss | {test_metrics['test/loss']:.4f} |\n"
+    for metric in ['test/acc', 'test/loss']:
+        if metric in test_metrics:
+            test_table += f"| {metric} | {test_metrics[metric]:.4f} |\n"
+        else:
+            print(f"Warning: {metric} not found in the CSV file")
 
-    # Write the test metrics table to a file
-    with open("test_metrics.md", "w") as f:
+    print("\nTest metrics:")
+    print(test_table)
+
+    # Write the test metrics table to a file in the project root directory
+    with open(os.path.join(PROJECT_ROOT, "test_metrics.md"), "w") as f:
         f.write(test_table)
-    print("Test metrics table generated")
 
     # Instantiate the data module
     datamodule = hydra.utils.instantiate(cfg.data)
@@ -95,7 +119,8 @@ def main(cfg: DictConfig):
     generate_confusion_matrix(model, datamodule.train_dataloader(), datamodule.class_names, "Train")
     generate_confusion_matrix(model, datamodule.test_dataloader(), datamodule.class_names, "Test")
 
-    print("Script execution completed.")
+    print("Plots and test metrics table generated successfully.")
+
 
 if __name__ == "__main__":
     main()
