@@ -22,6 +22,7 @@ seed: 42
 #   num_workers: 0
 #   pin_memory: True
 
+# model
 model:
   _target_: src.models.timm_classifier.TimmClassifier
   base_model: "tiny_vit_5m_224"
