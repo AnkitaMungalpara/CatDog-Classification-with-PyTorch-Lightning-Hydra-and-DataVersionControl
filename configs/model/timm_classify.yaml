@@ -1,9 +1,9 @@
 _target_: src.models.timm_classifier.TimmClassifier
 
 # Model parameters
-base_model: resnet18
-num_classes: 10
-pretrained: true
+base_model: vit_tiny_patch16_224
+num_classes: 2
+pretrained: false
 
 # Optimizer parameters
 lr: 1e-3

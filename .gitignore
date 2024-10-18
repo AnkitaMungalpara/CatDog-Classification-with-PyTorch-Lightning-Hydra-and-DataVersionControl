@@ -4,5 +4,4 @@ train_loss.png
 test_metrics.md
 checkpoints/
 logs/
-predictions/
 requirements.txt
