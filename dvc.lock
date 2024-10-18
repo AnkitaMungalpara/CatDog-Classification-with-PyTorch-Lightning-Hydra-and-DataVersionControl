@@ -5,8 +5,8 @@ stages:
     deps:
     - path: configs/experiment/catdog_ex.yaml
       hash: md5
-      md5: 0ae1045b84ec8e559762dbfcd7a209f5
-      size: 1064
+      md5: 4ba761fa3640ccc9d69d6440fdfd056e
+      size: 1076
     - path: src/train.py
       hash: md5
       md5: 4a4be304e048e2447c0e5c93a340a4ed
@@ -14,6 +14,6 @@ stages:
     outs:
     - path: logs
       hash: md5
-      md5: d7f27c94e6be63cfa1f516340de8f0ce.dir
-      size: 11776
+      md5: f50c15a0fd79f649c08f01cfd684449a.dir
+      size: 11930
       nfiles: 10
