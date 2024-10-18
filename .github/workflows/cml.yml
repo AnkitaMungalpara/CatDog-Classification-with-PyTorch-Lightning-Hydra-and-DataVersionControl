@@ -29,29 +29,12 @@ jobs:
           uv sync
 
       - name: Pull data from DVC
-        env:
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
-          # Print DVC version for debugging
-          uv run dvc version
-          
-          # List remote storage for debugging
-          uv run dvc remote list
-          
-          # Attempt to pull data with verbose output
-          uv run dvc pull -v
-          
-          # If the pull fails, try again with force
-          if [ $? -ne 0 ]; then
-            echo "Initial pull failed, attempting force pull..."
-            uv run dvc pull -v -f
-          fi
-          
-          # Check if pull was successful
-          if [ $? -ne 0 ]; then
-            echo "Error: DVC pull failed after retry. Check your DVC configuration and remote storage."
-            exit 1
-          fi
+          uv run dvc --verbose pull -v
+
+      - name: Update DVC and dependencies
+        run: |
+          uv run pip install --upgrade dvc dvc-gdrive
 
       - name: Train model
         run: |
