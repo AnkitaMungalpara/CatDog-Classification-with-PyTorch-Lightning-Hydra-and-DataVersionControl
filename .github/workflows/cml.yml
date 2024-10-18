@@ -28,13 +28,30 @@ jobs:
         run: |
           uv sync
 
-      - name: Pull data from DVC
-        run: |
-          uv run dvc --verbose pull -v
-
       - name: Update DVC and dependencies
         run: |
           uv run pip install --upgrade dvc dvc-gdrive
+
+      - name: Pull data from DVC
+        env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
+        run: |
+          uv run pip install backoff
+          python - <<EOF
+          import backoff
+          import subprocess
+          import sys
+
+          @backoff.on_exception(backoff.expo, subprocess.CalledProcessError, max_tries=5)
+          def run_dvc_pull():
+              subprocess.run(["uv", "run", "dvc", "pull", "-v"], check=True)
+
+          try:
+              run_dvc_pull()
+          except subprocess.CalledProcessError:
+              print("DVC pull failed after multiple retries")
+              sys.exit(1)
+          EOF
 
       - name: Train model
         run: |

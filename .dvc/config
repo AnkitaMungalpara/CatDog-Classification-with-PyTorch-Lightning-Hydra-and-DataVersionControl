@@ -1,15 +1,8 @@
 [core]
+    autostage = true
     remote = gdrive
-    
-[remote "gdrive"]
+['remote "gdrive"']
     url = gdrive://1mLdEo31hAlHO5N5l2oXSyD-OAj7KzD-Z
     gdrive_acknowledge_abuse = true
     gdrive_client_id = 476122145868-fpp3v4fefps9q9q5seu4jpqgpboigb4j.apps.googleusercontent.com
     gdrive_client_secret = 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
-
-[core]
-    analytics = false
-    
-[remote "gdrive"]
-    retry = 3
-    retry_multiplier = 2
