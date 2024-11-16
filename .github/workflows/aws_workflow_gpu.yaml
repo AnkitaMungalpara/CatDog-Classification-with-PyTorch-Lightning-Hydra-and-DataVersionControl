@@ -2,8 +2,7 @@ name: aws-test-train
 on:
   push:
     branches:
-      - aws-demo
-
+      - mlops-aws-cicd
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner for checking test coverage
@@ -56,7 +55,7 @@ jobs:
       AWS_DEFAULT_REGION: us-east-1 
     steps:
       - name: Hello World
-        run: echo 'Hello World! Chirag!'
+        run: echo 'Hello World! Ankita!'
       - name: AWS check if aws credentilas are set up correctly or not
         run: aws s3 ls
       - name: Checkout repository
@@ -123,13 +122,12 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 696310106738.dkr.ecr.us-east-1.amazonaws.com
 
-
       - name: Build Docker image
         run: |
           df -h
           export DOCKER_BUILDKIT=1
           docker system prune -a -f
-          docker build -t amungalpara/mlops-test-aws-repo .  # Adjust the path to your Dockerfile if necessary
+          docker build -t amungalpara/mlops-test-aws-repo .
 
       - name: Tag Docker image
         run: |
@@ -183,25 +181,25 @@ jobs:
 #         with:
 #           mode: start
 #           github-token: ${{ secrets.REPO_TOKEN }}
-#           ec2-image-id: ami-0a97fb64bae5e5254
-#           ec2-instance-type: t3.xlarge
-#           subnet-id: subnet-0c336abf4a4711538
-#           security-group-id: sg-05c186d96f3addd5b
-#           pre-runner-script: |
-#                 # sudo apt update -y && \ 
-#                 # sudo apt-get install -y unzip
-#                 # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"  # Download AWS CLI
-#                 # unzip awscliv2.zip  # Unzip the downloaded file
-#                 # sudo ./aws/install  # Install AWS CLI
-#                 # sudo ./aws/install --update
-#                 # curl -fsSL https://get.docker.com -o get-docker.sh  # Download Docker installation script
-#                 # sh get-docker.sh  # Run the installation script
-#                 # Set up AWS credentials and region
-#                 # mkdir -p ~/.aws && \
-#                 # echo "[default]" > ~/.aws/config && \
-#                 # echo "region=us-east-1" >> ~/.aws/config && \  # Set the region
-#                 # echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials && \
-#                 # echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+#           ec2-image-id: ami-0d130524b8338c208
+#           ec2-instance-type: g4dn.xlarge
+#           subnet-id: subnet-04e7dada262d6a4ef
+#           security-group-id: sg-0d91ba7ab3bba3ca8
+#           # pre-runner-script: |
+#           #       # sudo apt update -y && \ 
+#           #       # sudo apt-get install -y unzip
+#           #       # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"  # Download AWS CLI
+#           #       # unzip awscliv2.zip  # Unzip the downloaded file
+#           #       # sudo ./aws/install  # Install AWS CLI
+#           #       # sudo ./aws/install --update
+#           #       # curl -fsSL https://get.docker.com -o get-docker.sh  # Download Docker installation script
+#           #       # sh get-docker.sh  # Run the installation script
+#           #       # Set up AWS credentials and region
+#           #       # mkdir -p ~/.aws && \
+#           #       # echo "[default]" > ~/.aws/config && \
+#           #       # echo "region=us-east-1" >> ~/.aws/config && \  # Set the region
+#           #       # echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials && \
+#           #       # echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
 #   pull-docker-and-train:
 #     name: Build and pull Docker Image
 #     needs: 
