@@ -250,7 +250,7 @@ jobs:
            docker pull 696310106738.dkr.ecr.us-east-1.amazonaws.com/amungalpara/mlops-test-aws-repo:latest
       - name: RUN Dokcer image
         run: |
-          docker run  \
+          docker run --gpus all --shm-size=4g  \
           --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}  \
           --entrypoint /bin/bash \
           696310106738.dkr.ecr.us-east-1.amazonaws.com/amungalpara/mlops-test-aws-repo:latest \
