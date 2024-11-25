@@ -9,6 +9,7 @@ from lightning.pytorch.loggers import Logger
 from typing import List
 
 import rootutils
+import boto3
 
 # Setup root directory
 root = rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
@@ -47,6 +48,15 @@ def instantiate_loggers(logger_cfg: DictConfig) -> List[Logger]:
     return loggers
 
 
+def upload_model_to_s3(model_path: str, bucket_name: str, s3_model_path: str):
+    s3 = boto3.client('s3')
+    try:
+        s3.upload_file(model_path, bucket_name, s3_model_path)
+        log.info(f"Model uploaded to S3: s3://{bucket_name}/{s3_model_path}")
+    except Exception as e:
+        log.error(f"Failed to upload model to S3: {e}")
+
+
 @task_wrapper
 def train(
     cfg: DictConfig,
@@ -61,6 +71,13 @@ def train(
     trainer.fit(model, datamodule=datamodule)
     train_metrics = trainer.callback_metrics
     log.info(f"Training metrics:\n{train_metrics}")
+
+    # Save the model after training
+    # model_path = "path/to/save/model.ckpt"
+    trainer.save_checkpoint(trainer.checkpoint_callback.best_model_path)
+
+    # Upload the model to S3
+    upload_model_to_s3(trainer.checkpoint_callback.best_model_path, cfg.aws.bucket_name, "model/cat_dog_model.ckpt")
 
 
 @task_wrapper

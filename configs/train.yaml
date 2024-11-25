@@ -35,6 +35,9 @@ defaults:
   # debugging config (enable through command line, e.g. `python train.py debug=default)
   - debug: null
 
+# AWS S3 bucket configuration
+aws:
+  bucket_name: "mlops-aws" 
 
 # simply provide checkpoint path to resume training
 # ckpt_path: outputs/checkpoints/best_model.pt
