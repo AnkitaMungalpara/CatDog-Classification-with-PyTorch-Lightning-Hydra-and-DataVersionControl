@@ -1,13 +1,4 @@
----
-title: cat-dog-classifier
-app_file: gradio/app.py
-sdk: gradio
-sdk_version: 5.7.1
----
-
 # Deployment with Gradio
-
-# Introduction to Gradio  
 
 ## What is Gradio?  
 Gradio is an open-source Python library that makes it incredibly easy to build user-friendly web-based interfaces for machine learning models, APIs, or any Python function. With just a few lines of code, you can create interactive UIs that allow users to upload inputs, view model outputs, and share the interface through a simple web URL.  
@@ -51,7 +42,7 @@ Gradio is essential for:
    - Lightweight framework that allows you to build and test prototypes in minutes.  
 
 
-### Examples  
+## Examples  
 
 #### Example 1: **Hello World with Gradio**  
 **Code:**  
@@ -71,7 +62,6 @@ demo.launch(share=True)  # Share results with your friends with just 1 extra par
 
 ![example 1 result](output/example1.png)
 
----
 
 #### Example 2: **Multiple Inputs with Gradio**  
 **Code:**  
@@ -377,7 +367,6 @@ if __name__ == "__main__":
     main()  
 ```  
 
----
 
 ### Result:  
 
