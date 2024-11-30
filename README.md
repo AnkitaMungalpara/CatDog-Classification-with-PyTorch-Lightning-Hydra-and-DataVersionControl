@@ -1,3 +1,9 @@
+---
+title: cat-dog-classifier
+app_file: gradio/app.py
+sdk: gradio
+sdk_version: 5.7.1
+---
 # CatDog Classification with PyTorch Lightning, Hydra, and DVC
 
 This project implements a deep learning model to classify images of cats and dogs using PyTorch Lightning, Hydra for configuration management, and DVC for data version control.
