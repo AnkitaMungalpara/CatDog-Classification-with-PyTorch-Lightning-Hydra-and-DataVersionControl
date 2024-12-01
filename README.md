@@ -688,4 +688,172 @@ if __name__ == "__main__":
 ![chatbot](output/chatbot.png)
 
 
+### **TorchScript: A PyTorch Serialization Framework**
+
+TorchScript is a feature of PyTorch that enables you to serialize and optimize models for deployment. It transforms PyTorch models into a statically-typed intermediate representation that can be saved and executed in environments without Python, such as C++-based production systems.
+
+
+#### **Why Use TorchScript?**  
+1. **Portability**:  
+   - TorchScript models can run in environments where Python is unavailable, making it ideal for deployment in production settings.  
+
+2. **Performance Optimization**:  
+   - Models can be optimized for faster inference by utilizing JIT (Just-In-Time) compilation and other optimizations.  
+
+3. **Cross-Platform Deployment**:  
+   - TorchScript supports running on diverse platforms, such as mobile devices, servers, and embedded systems.  
+
+4. **Debugging and Profiling**:  
+   - Offers better insights into model performance through tools like TorchServe and TensorBoard.
+
+
+#### **How TorchScript Works?**  
+
+TorchScript creates a statically-typed subset of Python using two methods:  
+
+1. **Scripting**:  
+   - Converts Python code into TorchScript by directly annotating it with **@torch.jit.script**.  
+
+2. **Tracing**:  
+   - Records the operations performed on tensors while running the model and generates a TorchScript graph.  
+
+
+#### **Key Features**  
+
+1. TorchScript models can be saved using **torch.jit.save** and later loaded with **torch.jit.load**.  
+
+2. TorchScript models run independently of Python, ideal for environments like C++ or mobile runtimes.  
+
+3. TorchScript enforces type-checking, making the models more robust and predictable during runtime.  
+
+
+### **Example: Annotating and Inspecting a Scripted Function**
+
+
+Below is an example that demonstrates using TorchScript to script a function, inspect its computation graph, and execute it.
+
+
+```python
+import torch
+
+# Define a simple function to manipulate tensors
+def add(x: torch.Tensor):
+    # Increment the tensor in-place by 2.0
+    x += 2.0
+    
+    # Create a tensor of ones with the same shape as x
+    y = torch.ones_like(x)
+    
+    # Add y to x and store the result in x
+    x = x + y
+    
+    # Return the sum of all elements in x
+    return torch.sum(x)
+
+# Convert the function into TorchScript using scripting
+scripted = torch.jit.script(add)
+
+# Print the TorchScript computation graph
+print("Computation Graph of the Scripted Function:")
+print(scripted.graph)
+
+# Test the scripted function with a random input tensor
+input_tensor = torch.randn(1, 2)
+print("\nInput Tensor:")
+print(input_tensor)
+
+output = scripted(input_tensor)
+print("\nOutput of the Scripted Function:")
+print(output)
+```
+
+
+#### **Result**
+
+```bash
+Computation Graph of the Scripted Function:
+graph(%x.1 : Tensor):
+  %6 : NoneType = prim::Constant()
+  %3 : int = prim::Constant[value=1]()
+  %2 : float = prim::Constant[value=2.]() 
+  %x.5 : Tensor = aten::add_(%x.1, %2, %3) 
+  %y.1 : Tensor = aten::ones_like(%x.5, %6, %6, %6, %6, %6) 
+  %x.11 : Tensor = aten::add(%x.5, %y.1, %3)
+  %18 : Tensor = aten::sum(%x.11, %6)
+  return (%18)
+
+
+Input Tensor:
+tensor([[0.1471, 0.4504]])
+
+Output of the Scripted Function:
+tensor(6.5975)
+```
+
+### **TorchScript: Script vs Tracing**
+
+TorchScript offers two primary methods to export PyTorch models for optimization and deployment: **Tracing** and **Scripting**. Each method has specific use cases and characteristics, which are outlined below:
+
+### **1. Tracing**  
+Tracing records the operations executed by the model when it is run with specific input data. The resulting computation graph represents only the operations that were used during the trace.
+
+#### **Key Characteristics:**
+- **Export API**: **torch.jit.trace(model, input)**
+- **How it works**:  
+  - Runs the model with dummy inputs.  
+  - Records the executed tensor operations to build a computation graph.
+
+
+### **2. Scripting**  
+Scripting directly compiles the Python source code of a model into a computation graph. It captures both tensor operations and full Python control flow, resulting in a more flexible and accurate representation of the model.
+
+#### **Key Characteristics:**
+- **Export API**: **torch.jit.script(model)**
+- **How it works**:  
+  - Parses the model's Python code to create a graph representation of both operations and control logic.  
+  - Includes all conditional statements (**if**, **for**, etc.) as part of the graph.  
+
+
+### **Comparison: Script vs. Trace**
+
+<table border="1" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Tracing</th>
+            <th>Scripting</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>API</strong></td>
+            <td><code>torch.jit.trace(model, input)</code></td>
+            <td><code>torch.jit.script(model)</code></td>
+        </tr>
+        <tr>
+            <td><strong>Handles Conditional Logic</strong></td>
+            <td>❌ Ignored; only follows the traced path</td>
+            <td>✅ Captures all control flow</td>
+        </tr>
+        <tr>
+            <td><strong>Input Dependency</strong></td>
+            <td>Input-dependent; limited to traced path</td>
+            <td>Input-independent; models full logic</td>
+        </tr>
+        <tr>
+            <td><strong>Use Cases</strong></td>
+            <td>Static graphs (e.g., CNNs)</td>
+            <td>Dynamic models (e.g., RNNs, LSTMs)</td>
+        </tr>
+        <tr>
+            <td><strong>Ease of Use</strong></td>
+            <td>Simple; just provide input examples</td>
+            <td>Requires annotating dynamic logic</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
 For more information, visit the official [Gradio website](https://www.gradio.app/).
