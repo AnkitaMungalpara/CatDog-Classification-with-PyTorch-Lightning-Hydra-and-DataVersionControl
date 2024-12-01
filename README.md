@@ -398,8 +398,6 @@ if __name__ == "__main__":
     main()  
 ```  
 
----
-
 #### Result:  
 
 Each image returns the top 5 predicted labels with probabilities from the ImageNet dataset.  
@@ -727,7 +725,7 @@ if __name__ == "__main__":
 
 ![torchscript](output/torchscript.png)
 
-Credit: ![Facebook AI Research](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.com%2Fpresentations%2Fpytorch-torchscript-botorch%2F&psig=AOvVaw0aksIpr7zxjgwiH-fnuyp1&ust=1733161959748000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqGAoTCND488mRh4oDFQAAAAAdAAAAABCTCQ)
+Credit: [Facebook AI Research](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.com%2Fpresentations%2Fpytorch-torchscript-botorch%2F&psig=AOvVaw0aksIpr7zxjgwiH-fnuyp1&ust=1733161959748000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqGAoTCND488mRh4oDFQAAAAAdAAAAABCTCQ)
 
 
 TorchScript is a feature of PyTorch that enables you to serialize and optimize models for deployment. It transforms PyTorch models into a statically-typed intermediate representation that can be saved and executed in environments without Python, such as C++-based production systems.
@@ -1067,9 +1065,9 @@ gradio/
 
 ## References
 
-- ![Gradio](https://gradio.app)
-- ![PyTorch](https://pytorch.org/docs/stable/)
-- ![TorchScript Overview](https://pytorch.org/docs/stable/jit.html)
-- ![Hydra Configuration](https://hydra.cc/docs/intro/)
-- ![TorchScript Tracing and Scripting Tutorial](https://pytorch.org/tutorials/beginner/torchscript_tutorial.html)
+- [Gradio](https://gradio.app)
+- [PyTorch](https://pytorch.org/docs/stable/)
+- [TorchScript Overview](https://pytorch.org/docs/stable/jit.html)
+- [Hydra Configuration](https://hydra.cc/docs/intro/)
+- [TorchScript Tracing and Scripting Tutorial](https://pytorch.org/tutorials/beginner/torchscript_tutorial.html)
 
