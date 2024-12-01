@@ -1,9 +1,42 @@
+
 # Deployment with Gradio
 
-## What is Gradio?  
+## Topics Covered
+
+
+- [Introduction to Gradio](#introduction-to-gradio)
+  - [What is Gradio?](#what-is-gradio)
+  - [Why Do We Need Gradio?](#why-do-we-need-gradio)
+  - [Features of Gradio](#features-of-gradio)
+  - [Examples](#examples)
+    - [Example 1: Hello World with Gradio](#example-1-hello-world-with-gradio)
+    - [Example 2: Multiple Inputs with Gradio](#example-2-multiple-inputs-with-gradio)
+    - [Example 3: Interacting with a Gradio App via Client](#example-3-interacting-with-a-gradio-app-via-client)
+    - [Example 4: Applying Filter to Images](#example-4-applying-filter-to-images)
+    - [Example 5: Image Classification](#example-5-image-classification)
+    - [Example 6: Batch Image Classification](#example-6-batch-image-classification)
+    - [Example 7: Deploying Apple's Depth Pro Model using Gradio](#example-7-deploying-apples-depth-pro-model-using-gradio)
+    - [Example 8: Deploying a Chatbot](#example-8-deploying-a-chatbot)
+- [TorchScript: A PyTorch Serialization Framework](#torchscript-a-pytorch-serialization-framework)
+  - [Why Use TorchScript?](#why-use-torchscript)
+  - [How TorchScript Works?](#how-torchscript-works)
+  - [Key Features](#key-features)
+  - [Example: Annotating and Inspecting a Scripted Function](#example-annotating-and-inspecting-a-scripted-function)
+  - [TorchScript: Script vs Tracing](#torchscript-script-vs-tracing)
+  - [Comparison: Script vs. Trace](#comparison-script-vs-trace)
+  - [Deployment of Deep Learning Classifier with Gradio](#deployment-of-deep-learning-classifier-with-gradio)
+- [References](#references)
+
+
+
+## Introduction to Gradio  
+
+![gradio](output/gradio.jpg)
+
+### What is Gradio?  
 Gradio is an open-source Python library that makes it incredibly easy to build user-friendly web-based interfaces for machine learning models, APIs, or any Python function. With just a few lines of code, you can create interactive UIs that allow users to upload inputs, view model outputs, and share the interface through a simple web URL.  
 
-## Why Do We Need Gradio?  
+### Why Do We Need Gradio?  
 
 Gradio is useful for:  
 
@@ -23,7 +56,7 @@ Gradio is useful for:
    - With no need for front-end development skills, Gradio bridges the gap between data science and end-user interaction.  
 
 
-## Features of Gradio  
+### Features of Gradio  
 
 1. **Interactive User Interfaces**:  
    - Supports text, image, audio, video, and tabular inputs and outputs.  
@@ -42,7 +75,7 @@ Gradio is useful for:
    - Lightweight framework that allows you to build and test prototypes in minutes.  
 
 
-## Examples  
+### Examples  
 
 #### Example 1: **Hello World with Gradio**  
 **Code:**  
@@ -60,7 +93,7 @@ demo.launch(share=True)  # Share results with your friends with just 1 extra par
 **Result:**  
 - Shareable via a public URL using `share=True`.  
 
-![example 1 result](output/example1.png)
+![example 1](output/example1.png)
 
 
 #### Example 2: **Multiple Inputs with Gradio**  
@@ -82,7 +115,7 @@ demo.launch()
   2. **Checkbox**: Toggle between `True` and `False`.  
   3. **Slider**: Select a value between 0 and 100.  
 
-![example 2 result](output/example2.png)
+![example 2](output/example2.png)
 
 
 #### Example 3: **Interacting with a Gradio App via Client**  
@@ -113,7 +146,7 @@ name='John', checkbox=True, value=0
 
 ```
 
-### Example: **Applying Filter to Images**  
+#### Example 4: **Applying Filter to Images**  
 
 **Code:**  
 ```python  
@@ -142,12 +175,10 @@ demo.launch(share=True)
 ```  
 
 **Result:**  
-- **Input:** Upload an image (300x300 pixels or resized automatically).  
-- **Output:** The uploaded image is transformed with a sepia filter applied.  
 
-![example 4 result](output/example4.png)
+![example 4](output/example4.png)
 
-### Example 5: **Image Classification**  
+#### Example 5: **Image Classification**  
 
 **Code:**  
 ```python  
@@ -220,13 +251,13 @@ if __name__ == "__main__":
 
 Output displays the top 5 predictions with probabilities as shown in below example:  
 
-![example 5 result](output/example5.png)
+![example 5](output/example5.png)
 
-### Example 6: **Batch Image Classification**  
+#### Example 6: **Batch Image Classification**  
 
 This example demonstrates how to perform **batch image classification** using the `mambaout_base.in1k` model. It supports multiple concurrent image preprocessing, inference, and result generation.  
 
-#### **Server**  
+##### **Server**  
 
 ```python  
 import gradio as gr  
@@ -310,7 +341,7 @@ if __name__ == "__main__":
     demo.launch()  
 ```  
 
-#### **Client**  
+##### **Client**  
 
 ```python  
 from gradio_client import Client, handle_file  
@@ -367,13 +398,14 @@ if __name__ == "__main__":
     main()  
 ```  
 
+---
 
-### Result:  
+#### Result:  
 
 Each image returns the top 5 predicted labels with probabilities from the ImageNet dataset.  
 
 
-### Example Workflow  
+#### Example Workflow  
 
 1. **Server Side:**  
    - Launch the Gradio app.  
@@ -414,7 +446,8 @@ For a bus image:
    ]
 } 
 ```  
-### Example 7: **Deploying Apple's Depth Pro Model using Gradio**  
+
+#### Example 7: **Deploying Apple's Depth Pro Model using Gradio**  
 
 This example demonstrates deploying **Depth Pro model** for **monocular metric depth estimation**. The model processes an input image to generate a depth map and estimate focal length in pixels.  
 
@@ -570,9 +603,10 @@ if __name__ == "__main__":
     )  
 ```  
 
-### Result:  
 
-#### Example Prediction 1 
+#### Result:  
+
+##### Example Prediction 1 
 
 For an input image:  
 
@@ -585,7 +619,7 @@ For an input image:
    ```  
 
 
-#### Example Prediction 2
+##### Example Prediction 2
 
 For an input image:  
 
@@ -597,11 +631,11 @@ For an input image:
    Estimated Focal Length: 1206.37 pixels
    ```  
 
-### Example 8: Deploying a Chatbot  
+#### Example 8: **Deploying a Chatbot**  
 
 Below is an example of deploying a chatbot using **Gradio** and the **SmolLM2-1.7B-Instruct** model from Hugging Face.  
 
-#### **Key Steps**  
+##### **Key Steps**  
 
 1. **Model Loading**:  
    - The **AutoTokenizer** and **AutoModelForCausalLM** are used to load the tokenizer and the SmolLM2 model, optimized for CUDA.  
@@ -614,7 +648,8 @@ Below is an example of deploying a chatbot using **Gradio** and the **SmolLM2-1.
    - The chatbot streams responses token by token for a real-time conversational feel.  
 
 
-#### **chatbot.py**  
+
+##### **chatbot.py**  
 
 ```python
 import gradio as gr
@@ -683,17 +718,22 @@ if __name__ == "__main__":
     demo.launch()
 ```  
 
-### Result:  
+#### Result:  
 
 ![chatbot](output/chatbot.png)
 
 
-### **TorchScript: A PyTorch Serialization Framework**
+## **TorchScript: A PyTorch Serialization Framework**
+
+![torchscript](output/torchscript.png)
+
+Credit: ![Facebook AI Research](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.infoq.com%2Fpresentations%2Fpytorch-torchscript-botorch%2F&psig=AOvVaw0aksIpr7zxjgwiH-fnuyp1&ust=1733161959748000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqGAoTCND488mRh4oDFQAAAAAdAAAAABCTCQ)
+
 
 TorchScript is a feature of PyTorch that enables you to serialize and optimize models for deployment. It transforms PyTorch models into a statically-typed intermediate representation that can be saved and executed in environments without Python, such as C++-based production systems.
 
 
-#### **Why Use TorchScript?**  
+### **Why Use TorchScript?**  
 1. **Portability**:  
    - TorchScript models can run in environments where Python is unavailable, making it ideal for deployment in production settings.  
 
@@ -707,7 +747,7 @@ TorchScript is a feature of PyTorch that enables you to serialize and optimize m
    - Offers better insights into model performance through tools like TorchServe and TensorBoard.
 
 
-#### **How TorchScript Works?**  
+### **How TorchScript Works?**  
 
 TorchScript creates a statically-typed subset of Python using two methods:  
 
@@ -718,7 +758,7 @@ TorchScript creates a statically-typed subset of Python using two methods:
    - Records the operations performed on tensors while running the model and generates a TorchScript graph.  
 
 
-#### **Key Features**  
+### **Key Features**  
 
 1. TorchScript models can be saved using **torch.jit.save** and later loaded with **torch.jit.load**.  
 
@@ -768,7 +808,7 @@ print(output)
 ```
 
 
-#### **Result**
+### **Result**
 
 ```bash
 Computation Graph of the Scripted Function:
@@ -790,24 +830,24 @@ Output of the Scripted Function:
 tensor(6.5975)
 ```
 
-### **TorchScript: Script vs Tracing**
+##### **TorchScript: Script vs Tracing**
 
 TorchScript offers two primary methods to export PyTorch models for optimization and deployment: **Tracing** and **Scripting**. Each method has specific use cases and characteristics, which are outlined below:
 
-### **1. Tracing**  
+#### **1. Tracing**  
 Tracing records the operations executed by the model when it is run with specific input data. The resulting computation graph represents only the operations that were used during the trace.
 
-#### **Key Characteristics:**
+##### **Key Characteristics:**
 - **Export API**: **torch.jit.trace(model, input)**
 - **How it works**:  
   - Runs the model with dummy inputs.  
   - Records the executed tensor operations to build a computation graph.
 
 
-### **2. Scripting**  
+#### **2. Scripting**  
 Scripting directly compiles the Python source code of a model into a computation graph. It captures both tensor operations and full Python control flow, resulting in a more flexible and accurate representation of the model.
 
-#### **Key Characteristics:**
+##### **Key Characteristics:**
 - **Export API**: **torch.jit.script(model)**
 - **How it works**:  
   - Parses the model's Python code to create a graph representation of both operations and control logic.  
@@ -854,6 +894,182 @@ Scripting directly compiles the Python source code of a model into a computation
 </table>
 
 
+### **Deployment of Deep Learning Classifier with Gradio**
+
+Below are the steps and code snippets for deploying a **Classification** model using TorchScript and Gradio:
 
 
-For more information, visit the official [Gradio website](https://www.gradio.app/).
+#### **1. Trace and Save the Model**
+The **src/script.py** script demonstrates how to trace a PyTorch model and save it as a TorchScript model.
+
+```python
+import os
+from pathlib import Path
+import logging
+import hydra
+from omegaconf import DictConfig
+import torch
+import rootutils
+
+root = rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
+log = logging.getLogger(__name__)
+
+@hydra.main(version_base="1.3", config_path="../configs", config_name="train")
+def main(cfg: DictConfig) -> None:
+    log.info(f"Instantiating model <{cfg.model._target_}>")
+    model = hydra.utils.instantiate(cfg.model)
+    
+    if cfg.get("ckpt_path"):
+        log.info(f"Loading checkpoint: {cfg.ckpt_path}")
+        checkpoint = torch.load(cfg.ckpt_path)
+        model.load_state_dict(checkpoint['state_dict'])
+    
+    model.eval()
+    example_input = torch.randn(1, 3, 160, 160)
+    
+    log.info("Tracing model...")
+    traced_model = model.to_torchscript(method="trace", example_inputs=example_input)
+    
+    output_dir = Path("traced_models")
+    output_dir.mkdir(exist_ok=True)
+    output_path = output_dir / "model.pt"
+    torch.jit.save(traced_model, output_path)
+    log.info(f"Traced model saved to: {output_path}")
+
+if __name__ == "__main__":
+    main()
+```
+
+Run the script to generate the TorchScript model:
+
+```bash
+python src/script.py experiment=<experiment_name>
+ckpt_path=</path/to/checkpoint/>
+```
+
+
+#### **2. Install Dependencies**
+
+Requirements:
+
+```bash
+torch
+gradio
+torchvision
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+
+#### **3. Gradio Interface**
+The **app.py** script sets up a Gradio-based web interface for the classifier.
+
+```python
+import gradio as gr
+import torch
+import torchvision.transforms as transforms
+from PIL import Image
+
+class CatDogClassifier:
+    def __init__(self, model_path="model.pt"):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.model = torch.jit.load(model_path).to(self.device)
+        self.model.eval()
+        
+        self.transform = transforms.Compose([
+            transforms.Resize((160, 160)),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            )
+        ])
+        self.labels = ['Dog', 'Cat']
+
+    @torch.no_grad()
+    def predict(self, image):
+        if image is None:
+            return None
+        
+        if not isinstance(image, Image.Image):
+            image = Image.fromarray(image).convert('RGB')
+        
+        img_tensor = self.transform(image).unsqueeze(0).to(self.device)
+        output = self.model(img_tensor)
+        probabilities = torch.nn.functional.softmax(output[0], dim=0)
+        
+        return {
+            self.labels[idx]: float(prob)
+            for idx, prob in enumerate(probabilities)
+        }
+
+classifier = CatDogClassifier()
+
+demo = gr.Interface(
+    fn=classifier.predict,
+    inputs=gr.Image(),
+    outputs=gr.Label(num_top_classes=2),
+    title="Cat vs Dog Classifier",
+    description="Upload an image to classify whether it's a cat or a dog",
+    examples=[
+        ["examples/cat.jpg"],
+        ["examples/dog.jpg"]
+    ]
+)
+
+if __name__ == "__main__":
+    demo.launch()
+```
+
+Run the Gradio app:
+
+```bash
+python app.py
+```
+
+
+#### **4. Deploy Gradio App**
+
+To deploy the Gradio app publicly:
+1. Add **demo.launch()** in **app.py**:
+
+   ```python
+   demo.launch(share=True)
+   ```
+
+2. Launch the app, and a public URL will be generated.
+
+Alternatively, we can deploy the app to a cloud provider such as Hugging Face Spaces or AWS.
+
+
+#### Directory Structure
+
+```
+gradio/
+│
+├── README.md                 
+├── app.py                    # Gradio app script
+├── model.pt                  # Traced TorchScript model
+├── requirements.txt          # Dependencies 
+├── examples/                 # Example images
+│   ├── example1.jpg
+│   ├── example2.jpg
+
+```
+
+
+#### Result:
+
+
+![gradio classifier](output/gradio_classifier.png)
+
+## References
+
+- ![Gradio](https://gradio.app)
+- ![PyTorch](https://pytorch.org/docs/stable/)
+- ![TorchScript Overview](https://pytorch.org/docs/stable/jit.html)
+- ![Hydra Configuration](https://hydra.cc/docs/intro/)
+- ![TorchScript Tracing and Scripting Tutorial](https://pytorch.org/tutorials/beginner/torchscript_tutorial.html)
+
