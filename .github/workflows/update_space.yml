@@ -24,8 +24,5 @@ jobs:
     - name: Log in to Hugging Face
       run: python -c 'import huggingface_hub; huggingface_hub.login(token="${{ secrets.hf_token }}")'
 
-    - name: Change to Gradio directory
-      run: cd gradio
-
     - name: Deploy to Spaces
       run: gradio deploy
