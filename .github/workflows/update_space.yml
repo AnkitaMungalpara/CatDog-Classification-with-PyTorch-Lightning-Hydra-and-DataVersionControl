@@ -3,7 +3,7 @@ name: Gradio Deploy to Huggingface Space
 on:
   push:
     branches:
-      - deploy-with-gradio
+      - mlops
 
 jobs:
   build:

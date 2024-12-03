@@ -32,7 +32,7 @@ model:
 trainer:
   _target_: lightning.Trainer
   min_epochs: 1
-  max_epochs: 15
+  max_epochs: 30
 
 callbacks:
   # model_checkpoint:
