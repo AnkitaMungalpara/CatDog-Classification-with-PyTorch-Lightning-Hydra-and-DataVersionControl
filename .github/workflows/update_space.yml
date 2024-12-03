@@ -24,8 +24,5 @@ jobs:
     - name: Log in to Hugging Face
       run: python -c 'import huggingface_hub; huggingface_hub.login(token="${{ secrets.hf_token }}")'
 
-    - name: loading gradio directory
-      run: cd gradio/
-
     - name: Deploy to Spaces
-      run: gradio deploy --title AnkitaMungalpara/Cat_vs_Dog_Classifier --app-file app.py 
+      run: gradio deploy --title Cat_vs_Dog_Classifier --app-file gradio/app.py 
