@@ -282,6 +282,8 @@ jobs:
 
   gradio-deploy:
     runs-on: ubuntu-latest
+    needs: 
+      - stop-last-runner
 
     steps:
     - name: Checkout
