@@ -1,4 +1,4 @@
-name: Run Python script
+name: Gradio Deploy to Huggingface Space
 
 on:
   push:

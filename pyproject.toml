@@ -30,6 +30,8 @@ dependencies = [
     "dvc-s3>=3.2.0",
     "boto3>=1.35.36",
     "litserve>=0.2.4",
+    "gradio>=5.7.1",
+    "transformers>=4.46.3",
 ]
 
 [tool.uv.pip]
