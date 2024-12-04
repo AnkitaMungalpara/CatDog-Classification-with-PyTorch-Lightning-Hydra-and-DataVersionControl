@@ -9,8 +9,6 @@ sdk_version: 5.7.1
 
 # Deployment with Gradio
 
-## Topics Covered
-
 
 - [Introduction to Gradio](#introduction-to-gradio)
   - [What is Gradio?](#what-is-gradio)
