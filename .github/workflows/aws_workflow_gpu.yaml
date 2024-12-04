@@ -183,10 +183,10 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.REPO_TOKEN }}
-          ec2-image-id: ami-082e3bc657c158efe
+          ec2-image-id: ami-0b7e4ab35bae7ec14
           ec2-instance-type: g4dn.xlarge
           subnet-id: subnet-0e82450b60dee652e
-          security-group-id: sg-00ad499a758412286
+          security-group-id: sg-05e66625ac9341f74
           # pre-runner-script: |
           #       # sudo apt update -y && \ 
           #       # sudo apt-get install -y unzip
