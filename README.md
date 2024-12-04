@@ -5,6 +5,8 @@ sdk: gradio
 sdk_version: 5.7.1
 ---
 
+[![aws-test-train-gradio-deploy](https://github.com/AnkitaMungalpara/CatDog-Classification-with-PyTorch-Lightning-Hydra-and-DataVersionControl/actions/workflows/aws_workflow_gpu.yaml/badge.svg)](https://github.com/AnkitaMungalpara/CatDog-Classification-with-PyTorch-Lightning-Hydra-and-DataVersionControl/actions/workflows/aws_workflow_gpu.yaml)
+
 # Deployment with Gradio
 
 ## Topics Covered
